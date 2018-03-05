@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<div id="result"></div>
+<div id="time"></div>
+
+<script type="text/javascript">
+let performanceBeginning = performance.now();
+
+let startPoint   = 10000,
+    endPoint     = 100000,
+    primeNumbers = [],
+    palindromes  = [];
+
+
+primeNumbers = calcPrimeNumbers(startPoint, endPoint);
+palindromes  = multiplyNumbers(primeNumbers);
+
+showResult(palindromes);
+
+// find all prime numbers in provided segment
+function calcPrimeNumbers(startPoint, endPoint) {
+  let array = [];
+
+  // fill array with all numbers from 2 to the end point
+  for ( let i = 2; i < endPoint; i++ ) {
+    array.push(i);
+  }
+
+  // loop through array from first element to check for prime other values 
+  // "i" variable is a position of the current divisor in array and it is a prime number
+  for ( let i = 0; i < array.length; i++) {
+    // loop through the rest of numbers in array
+    for (let j = i + 1; j < array.length; j++) {
+      // check if division quotient(product) of the divident and divisor is zero
+      if ( array[j]  %  array[i] == 0) {
+        // remove it from the array by index
+        array.splice(array[j], 1);
+      }
+    }    
+  }
+
+  // loop through array of values until it comes to the start point 
+  for ( let i = 0; array[i] < startPoint; i++ ) {
+    // if value is less than start point remove it
+    array.splice(i, 1);
+    // start from previous index because of array change
+    i--;
+  }
+
+  return array;
+}
+
+// multiply all numbers in array with themselves and return the biggest number
+function multiplyNumbers(incomingArray) {
+  let array = incomingArray;
+  let palindromes;
+
+  // loop through all values in array
+  // "i" variable is an index of the current multiplicand in array
+  for ( let i = 0; i < array.length; i++) {
+    // loop through the rest of array values
+    for ( let j = i + 1; j < array.length; j++) {
+
+      let product = array[i] * array[j];
+      let biggestPalindrome = 0;
+
+      // check if product is palindrome and bigger than previous biggest number
+      if ( isPalindrome( product ) && product > biggestPalindrome) {
+
+        palindromes = {
+          multiplier:   array[j],
+          multiplicand: array[i],
+          product:      product
+        };
+        
+        biggestPalindrome = product;
+      }
+    }
+  }
+
+  return palindromes;
+}
+
+
+function isPalindrome(number) {
+  let string = number.toString();
+  let reverseString = string.split("").reverse().join("");
+
+  if ( string == reverseString ) return true;
+}
+
+function showResult(result) {
+  let string = JSON.stringify(result);
+  let div = document.getElementById('result');
+
+  div.innerHTML = string;
+}
+
+let performanceEnd = performance.now();
+document.getElementById('time').innerHTML = 'Script has been executed in ' + ((performanceEnd - performanceBeginning) / 1000) + ' seconds';
+
+</script>
+
+
+</body>
+</html>
