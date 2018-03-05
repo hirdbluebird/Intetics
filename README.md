@@ -8,4 +8,4 @@
 ### Run program
 To launch the program you have to download this repository and simply run *index.html* in you browser. Results of calculations can be viewed in opened window.
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.jpg)
