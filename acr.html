@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div id="result"></div>
+<div id="time"></div>
+
+<script type="text/javascript">
+let performanceBeginning = performance.now();
+
+let startPoint   = 10000,
+	endPoint     = 100000,
+	primeNumbers = [],
+	palindromes  = [];
+
+
+primeNumbers = calcPrimeNumbers(startPoint, endPoint);
+palindromes  = multiplyNumbers(primeNumbers);
+
+showResult(palindromes);
+
+function calcPrimeNumbers(startPoint, endPoint) {
+	let array = [];
+
+	for ( let i = 2; i < endPoint; i++ ) {
+		array.push(i);
+	}
+	
+	array.forEach( function(primeNumber) {
+		array.forEach( function(arrayCurrentNumber, currentNumberIndex) {
+			if ( arrayCurrentNumber % primeNumber == 0 &&
+				 arrayCurrentNumber !== primeNumber ) {
+				array.splice(currentNumberIndex, 1);
+			}
+		});
+	});
+
+	for ( let i = 0; array[i] < startPoint; i++ ) {
+		array.splice(i, 1);
+		i--;
+	}
+
+	return array;
+}
+
+function multiplyNumbers(incomingArray) {
+	let array = incomingArray;
+	
+	let palindromes;
+
+	array.forEach( function(multiplier) {
+		array.forEach( function(multiplicand) {
+
+			let product = multiplier * multiplicand;
+			let biggestPalindrome = 0;
+
+			if ( isPalindrome( product ) &&
+				 product > biggestPalindrome) {
+
+				palindromes = {
+					multiplier:   multiplier,
+					multiplicand: multiplicand,
+					product:      product
+				};
+
+				biggestPalindrome = product;
+			}
+		});
+	});
+
+	return palindromes;
+}
+
+
+function isPalindrome(number) {
+	let string = number.toString();
+	let reverseString = string.split("").reverse().join("");
+
+	if ( string == reverseString ) return true;
+}
+
+function showResult(result) {
+	let string = JSON.stringify(result);
+	let div = document.getElementById('result');
+
+	div.innerHTML = string;
+}
+
+let performanceEnd = performance.now();
+document.getElementById('time').innerHTML = 'Script has been executed in ' + ((performanceEnd - performanceBeginning) / 1000) + ' seconds';
+
+</script>
+
+
+</body>
+</html>
