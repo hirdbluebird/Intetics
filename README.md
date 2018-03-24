@@ -9,3 +9,5 @@
 To launch the program you have to download this repository and simply run *index.html* in you browser. Results of calculations can be viewed in opened window.
 
 ![Screenshot](screenshot.jpg)
+
+Firefox у меня повесился, когда я попытался открыть твой файл index.html
